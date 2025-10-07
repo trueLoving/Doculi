@@ -1,0 +1,18 @@
+{
+  "name": "DocuSynapse",
+  "description": "DocuSynapse is a platform for document analysis and synthesis.",
+  "keywords": ["document", "conversion", "pdf", "docx", "ocr", "wasm"],
+  "author": "starsky",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}
