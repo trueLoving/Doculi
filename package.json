@@ -1,11 +1,24 @@
 {
   "name": "DocuSynapse",
   "description": "DocuSynapse is a platform for document analysis and synthesis.",
-  "keywords": ["document", "conversion", "pdf", "docx", "ocr", "wasm"],
+  "keywords": [
+    "document",
+    "conversion",
+    "pdf",
+    "docx",
+    "ocr",
+    "wasm"
+  ],
   "author": "starsky",
   "license": "MIT",
   "private": true,
   "scripts": {
+    "docs:dev": "pnpm --filter docs dev",
+    "web:dev": "pnpm --filter web dev",
+    "ui:dev": "pnpm --filter ui dev",
+    "docs:build": "pnpm --filter docs start",
+    "web:build": "pnpm --filter web build",
+    "ui:build": "pnpm --filter ui build"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
