@@ -1,5 +1,5 @@
 {
-  "name": " DocuSynapse-Web",
+  "name": "DocuSynapse-Web",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,10 +9,21 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.0",
+    "@mui/material": "^5.15.0",
+    "docx": "^8.5.0",
+    "file-saver": "^2.0.5",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^5.4.296",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
+    "tesseract.js": "^4.1.1"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.7",
     "@types/node": "^22.0.0",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
