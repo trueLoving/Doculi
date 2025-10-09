@@ -1,37 +1,8 @@
 import { useState, useCallback } from 'react';
-import {
-  Container,
-  Paper,
-  Typography,
-  Box,
-  Button,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Alert,
-  Card,
-  CardContent,
-  Divider
-} from '@mui/material';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import { FileUpload } from './components/FileUpload';
 import { ProgressBar } from './components/ProgressBar';
 import { SecurityWarningDialog } from './components/SecurityWarningDialog';
 import { conversionService, type ConversionOptions } from './services/conversionService';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#1976d2',
-    },
-    secondary: {
-      main: '#dc004e',
-    },
-  },
-});
 
 function App() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -152,119 +123,137 @@ function App() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Container maxWidth="md" sx={{ py: 4 }}>
-        <Paper elevation={3} sx={{ p: 4 }}>
-          <Typography variant="h4" component="h1" gutterBottom align="center" color="primary">
-            DocuSynapse
-          </Typography>
-          <Typography variant="subtitle1" align="center" color="text.secondary" sx={{ mb: 4 }}>
-            智能文档转换平台 - 支持PDF、DOCX、扫描件互转
-          </Typography>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-4xl mx-auto py-8 px-4">
+        <div className="card p-8">
+          {/* 标题区域 */}
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-blue-600 mb-2">
+              DocuSynapse
+            </h1>
+            <p className="text-lg text-gray-600">
+              智能文档转换平台 - 支持PDF、DOCX、扫描件互转
+            </p>
+          </div>
 
-          <Box sx={{ mb: 4 }}>
+          {/* 文件上传区域 */}
+          <div className="mb-8">
             <FileUpload 
               onFileSelect={handleFileSelect} 
               disabled={isProcessing}
             />
-          </Box>
+          </div>
 
+          {/* 文件信息卡片 */}
           {selectedFile && (
-            <Card sx={{ mb: 3 }}>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  文件信息
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  文件名: {selectedFile.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  文件类型: {getFileTypeDescription()}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  文件大小: {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
-                </Typography>
-              </CardContent>
-            </Card>
+            <div className="card p-6 mb-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                文件信息
+              </h3>
+              <div className="space-y-2">
+                <p className="text-sm text-gray-600">
+                  <span className="font-medium">文件名:</span> {selectedFile.name}
+                </p>
+                <p className="text-sm text-gray-600">
+                  <span className="font-medium">文件类型:</span> {getFileTypeDescription()}
+                </p>
+                <p className="text-sm text-gray-600">
+                  <span className="font-medium">文件大小:</span> {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
+                </p>
+              </div>
+            </div>
           )}
 
-          <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
-            <FormControl sx={{ minWidth: 120 }}>
-              <InputLabel>目标格式</InputLabel>
-              <Select
+          {/* 转换选项 */}
+          <div className="flex flex-col sm:flex-row gap-4 mb-6">
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                目标格式
+              </label>
+              <select
                 value={targetFormat}
-                label="目标格式"
                 onChange={(e) => setTargetFormat(e.target.value as 'pdf' | 'docx')}
                 disabled={isProcessing}
+                className="select-field"
               >
-                <MenuItem value="pdf">PDF</MenuItem>
-                <MenuItem value="docx">DOCX</MenuItem>
-              </Select>
-            </FormControl>
+                <option value="pdf">PDF</option>
+                <option value="docx">DOCX</option>
+              </select>
+            </div>
 
             {targetFormat === 'pdf' && (
-              <TextField
-                label="水印文字"
-                value={watermarkText}
-                onChange={(e) => setWatermarkText(e.target.value)}
-                disabled={isProcessing}
-                sx={{ flexGrow: 1 }}
-              />
+              <div className="flex-1">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  水印文字
+                </label>
+                <input
+                  type="text"
+                  value={watermarkText}
+                  onChange={(e) => setWatermarkText(e.target.value)}
+                  disabled={isProcessing}
+                  className="input-field"
+                  placeholder="输入水印文字"
+                />
+              </div>
             )}
-          </Box>
+          </div>
 
+          {/* 进度条 */}
           {isProcessing && (
-            <Box sx={{ mb: 3 }}>
+            <div className="mb-6">
               <ProgressBar 
                 progress={progress} 
                 message={progressMessage}
                 variant="linear"
               />
-            </Box>
+            </div>
           )}
 
+          {/* 错误提示 */}
           {error && (
-            <Alert severity="error" sx={{ mb: 3 }}>
+            <div className="alert-error mb-6">
               {error}
-            </Alert>
+            </div>
           )}
 
+          {/* 成功提示 */}
           {success && (
-            <Alert severity="success" sx={{ mb: 3 }}>
+            <div className="alert-success mb-6">
               {success}
-            </Alert>
+            </div>
           )}
 
-          <Box sx={{ textAlign: 'center' }}>
-            <Button
-              variant="contained"
-              size="large"
+          {/* 转换按钮 */}
+          <div className="text-center">
+            <button
               onClick={handleConvert}
               disabled={!selectedFile || isProcessing}
-              sx={{ px: 4 }}
+              className="btn-primary text-lg px-8 py-3"
             >
               {isProcessing ? '转换中...' : '开始转换'}
-            </Button>
-          </Box>
+            </button>
+          </div>
 
-          <Divider sx={{ my: 4 }} />
+          {/* 分隔线 */}
+          <div className="border-t border-gray-200 my-8" />
 
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="body2" color="text.secondary">
+          {/* 特性说明 */}
+          <div className="text-center">
+            <p className="text-sm text-gray-500">
               🔒 本地处理，数据不上传服务器 | 🚀 WASM技术，高性能转换 | 🛡️ 智能安全检测
-            </Typography>
-          </Box>
-        </Paper>
+            </p>
+          </div>
+        </div>
 
+        {/* 安全警告对话框 */}
         <SecurityWarningDialog
           open={showSecurityDialog}
           onClose={() => setShowSecurityDialog(false)}
           onConfirm={handleSecurityConfirm}
           onCancel={handleSecurityCancel}
         />
-      </Container>
-    </ThemeProvider>
+      </div>
+    </div>
   );
 }
 

@@ -1,7 +1,5 @@
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Typography, Paper } from '@mui/material';
-import { CloudUpload } from '@mui/icons-material';
 
 interface FileUploadProps {
   onFileSelect: (file: File) => void;
@@ -28,31 +26,48 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect, disabled =
   });
 
   return (
-    <Paper
+    <div
       {...getRootProps()}
-      sx={{
-        p: 4,
-        textAlign: 'center',
-        cursor: disabled ? 'not-allowed' : 'pointer',
-        border: '2px dashed',
-        borderColor: isDragActive ? 'primary.main' : 'grey.300',
-        backgroundColor: isDragActive ? 'action.hover' : 'background.paper',
-        opacity: disabled ? 0.6 : 1,
-        transition: 'all 0.2s ease-in-out',
-        '&:hover': {
-          borderColor: disabled ? 'grey.300' : 'primary.main',
-          backgroundColor: disabled ? 'background.paper' : 'action.hover'
+      className={`
+        p-8 text-center rounded-lg border-2 border-dashed transition-all duration-200
+        ${isDragActive 
+          ? 'border-blue-500 bg-blue-50' 
+          : 'border-gray-300 hover:border-blue-500 hover:bg-gray-50'
         }
-      }}
+        ${disabled 
+          ? 'opacity-60 cursor-not-allowed' 
+          : 'cursor-pointer'
+        }
+      `}
     >
       <input {...getInputProps()} />
-      <CloudUpload sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />
-      <Typography variant="h6" gutterBottom>
+      
+      {/* 上传图标 */}
+      <div className="mb-4">
+        <svg 
+          className={`w-12 h-12 mx-auto ${isDragActive ? 'text-blue-500' : 'text-gray-400'}`}
+          fill="none" 
+          stroke="currentColor" 
+          viewBox="0 0 24 24"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={2} 
+            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" 
+          />
+        </svg>
+      </div>
+      
+      {/* 标题 */}
+      <h3 className="text-lg font-semibold text-gray-900 mb-2">
         {isDragActive ? '释放文件到此处' : '拖拽文件到此处或点击选择'}
-      </Typography>
-      <Typography variant="body2" color="text.secondary">
+      </h3>
+      
+      {/* 描述 */}
+      <p className="text-sm text-gray-500">
         支持 PDF、DOCX、JPG、PNG 格式
-      </Typography>
-    </Paper>
+      </p>
+    </div>
   );
 };

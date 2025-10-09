@@ -15,7 +15,7 @@
 
 - React 18 + TypeScript
 - Vite 构建工具
-- Material-UI 组件库
+- Tailwind CSS 样式框架
 - 主线程处理（避免Web Worker模块加载问题）
 - pdf-lib (PDF处理)
 - pdfjs-dist (PDF文本提取)

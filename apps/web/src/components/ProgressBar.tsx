@@ -1,5 +1,4 @@
 import React from 'react';
-import { Box, CircularProgress, Typography, LinearProgress } from '@mui/material';
 
 interface ProgressBarProps {
   progress: number;
@@ -14,53 +13,62 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
 }) => {
   if (variant === 'linear') {
     return (
-      <Box sx={{ width: '100%', mb: 2 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-          <Typography variant="body2" sx={{ flexGrow: 1 }}>
+      <div className="w-full mb-4">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-sm font-medium text-gray-700 flex-1">
             {message}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
+          </span>
+          <span className="text-sm text-gray-500">
             {Math.round(progress)}%
-          </Typography>
-        </Box>
-        <LinearProgress 
-          variant="determinate" 
-          value={progress} 
-          sx={{ height: 8, borderRadius: 4 }}
-        />
-      </Box>
+          </span>
+        </div>
+        <div className="w-full bg-gray-200 rounded-full h-2">
+          <div 
+            className="bg-blue-600 h-2 rounded-full transition-all duration-300 ease-out"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      </div>
     );
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', p: 3 }}>
-      <Box sx={{ position: 'relative', display: 'inline-flex', mb: 2 }}>
-        <CircularProgress
-          variant="determinate"
-          value={progress}
-          size={80}
-          thickness={4}
-        />
-        <Box
-          sx={{
-            top: 0,
-            left: 0,
-            bottom: 0,
-            right: 0,
-            position: 'absolute',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Typography variant="caption" component="div" color="text.secondary">
-            {`${Math.round(progress)}%`}
-          </Typography>
-        </Box>
-      </Box>
-      <Typography variant="body1" color="text.secondary">
+    <div className="flex flex-col items-center p-6">
+      {/* 圆形进度条 */}
+      <div className="relative inline-flex mb-4">
+        <svg className="w-20 h-20 transform -rotate-90" viewBox="0 0 36 36">
+          {/* 背景圆环 */}
+          <path
+            className="text-gray-200"
+            stroke="currentColor"
+            strokeWidth="3"
+            fill="none"
+            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+          />
+          {/* 进度圆环 */}
+          <path
+            className="text-blue-600"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinecap="round"
+            fill="none"
+            strokeDasharray={`${progress}, 100`}
+            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+          />
+        </svg>
+        
+        {/* 百分比文字 */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-sm font-medium text-gray-600">
+            {Math.round(progress)}%
+          </span>
+        </div>
+      </div>
+      
+      {/* 消息文字 */}
+      <p className="text-sm text-gray-600">
         {message}
-      </Typography>
-    </Box>
+      </p>
+    </div>
   );
 };
