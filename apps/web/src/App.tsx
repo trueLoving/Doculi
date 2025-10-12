@@ -1,8 +1,9 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { FileUpload } from './components/FileUpload';
 import { ProgressBar } from './components/ProgressBar';
 import { SecurityWarningDialog } from './components/SecurityWarningDialog';
 import { conversionService, type ConversionOptions } from './services/conversionService';
+import { workerManager } from './services/workerManager';
 
 function App() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -62,15 +63,16 @@ function App() {
         watermarkText: targetFormat === 'pdf' ? watermarkText : undefined
       };
 
-      const result = await conversionService.convertFile(selectedFile, options);
+      // 使用Web Worker进行转换
+      const result = await workerManager.convertFile(selectedFile, options);
 
       if (result.success && result.data) {
         // 检查是否包含敏感信息
-        const hasSensitiveContent = await conversionService.detectSensitiveContent(
+        const hasSensitiveContent = await workerManager.detectSensitiveContent(
           selectedFile.name + ' ' + watermarkText
         );
 
-        if (hasSensitiveContent) {
+        if (hasSensitiveContent.hasSensitive) {
           setPendingDownload({ data: result.data, fileName: result.fileName });
           setShowSecurityDialog(true);
         } else {
@@ -121,6 +123,14 @@ function App() {
         return '未知格式';
     }
   };
+
+  // 清理资源
+  useEffect(() => {
+    return () => {
+      workerManager.terminate();
+      conversionService.cleanup();
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">

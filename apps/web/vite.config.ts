@@ -6,5 +6,10 @@ export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
     exclude: ['tesseract.js']
+  },
+  resolve: {
+    alias: {
+      'tesseract.js': 'tesseract.js/dist/tesseract.esm.min.js'
+    }
   }
 })
