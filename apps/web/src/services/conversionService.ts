@@ -64,6 +64,9 @@ class ConversionService {
           isItalic: boolean;
           y: number;
           x: number;
+          width: number;
+          height: number;
+          color?: string;
         }> = [];
         
         for (const item of textContent.items) {
@@ -74,54 +77,33 @@ class ConversionService {
             const fontSize = Math.abs(transform[0]);
             const fontName = item.fontName as string;
             
+            // 更准确的字体样式检测
+            const isBold = this.detectBoldFont(fontName, fontSize);
+            const isItalic = this.detectItalicFont(fontName);
+            
             textBlocks.push({
               text: item.str,
               fontSize,
               fontName,
-              isBold: fontName.toLowerCase().includes('bold'),
-              isItalic: fontName.toLowerCase().includes('italic'),
+              isBold,
+              isItalic,
               y,
-              x
+              x,
+              width: item.width || 0,
+              height: item.height || fontSize,
+              color: this.extractTextColor(item)
             });
           }
         }
         
-        // 按Y坐标分组，形成行
-        const lines: Array<{
-          text: string;
-          fontSize: number;
-          fontName: string;
-          isBold: boolean;
-          isItalic: boolean;
-          y: number;
-          x: number;
-        }>[] = [];
+        // 改进的行和段落识别算法
+        const lines = this.groupTextIntoLines(textBlocks);
+        const paragraphs = this.groupLinesIntoParagraphs(lines);
         
-        // 按Y坐标排序并分组
-        textBlocks.sort((a, b) => b.y - a.y); // 从上到下排序
+        console.log(`页面 ${pageNum} 提取到 ${lines.length} 行文本，${paragraphs.length} 个段落`);
         
-        let currentLine: typeof textBlocks = [];
-        let lastY = textBlocks[0]?.y || 0;
-        
-        for (const block of textBlocks) {
-          if (Math.abs(block.y - lastY) > 3) {
-            if (currentLine.length > 0) {
-              lines.push(currentLine);
-            }
-            currentLine = [block];
-          } else {
-            currentLine.push(block);
-          }
-          lastY = block.y;
-        }
-        if (currentLine.length > 0) {
-          lines.push(currentLine);
-        }
-        
-        console.log(`页面 ${pageNum} 提取到 ${lines.length} 行文本`);
-        
-        // 将行转换为段落，保留格式
-        if (lines.length > 0) {
+        // 将段落转换为Word文档，保留格式
+        if (paragraphs.length > 0) {
           // 添加页面标题
           sections.push({
             properties: {},
@@ -134,50 +116,29 @@ class ConversionService {
             ]
           });
           
-          // 添加内容段落，保留格式
-          for (const line of lines) {
-            if (line.length > 0) {
-              // 按X坐标排序，保持水平顺序
-              line.sort((a, b) => a.x - b.x);
-              
-              // 创建文本运行，保留格式
-              const textRuns = line.map(block => {
-                const runOptions: any = {
-                  text: block.text
-                };
-                
-                // 设置字体大小（转换为Word的点数）
-                if (block.fontSize > 0) {
-                  runOptions.size = Math.round(block.fontSize * 0.75); // PDF单位转Word点数
+          // 处理每个段落
+          for (const paragraph of paragraphs) {
+            if (paragraph.length > 0) {
+              // 检测是否为表格
+              if (this.detectTableStructure(paragraph)) {
+                // 创建表格段落（简化处理）
+                const tableParagraph = this.createTableParagraph(paragraph);
+                if (tableParagraph) {
+                  sections.push({
+                    properties: {},
+                    children: [tableParagraph]
+                  });
                 }
-                
-                // 设置粗体
-                if (block.isBold) {
-                  runOptions.bold = true;
+              } else {
+                // 创建普通段落
+                const paragraphElement = this.createParagraphFromLines(paragraph);
+                if (paragraphElement) {
+                  sections.push({
+                    properties: {},
+                    children: [paragraphElement]
+                  });
                 }
-                
-                // 设置斜体
-                if (block.isItalic) {
-                  runOptions.italics = true;
-                }
-                
-                return new TextRun(runOptions);
-              });
-              
-              // 检测是否为标题（基于字体大小和位置）
-              const avgFontSize = line.reduce((sum, block) => sum + block.fontSize, 0) / line.length;
-              const isHeading = avgFontSize > 14 || line.some(block => block.isBold);
-              
-              sections.push({
-                properties: {},
-                children: [
-                  new Paragraph({
-                    children: textRuns,
-                    alignment: AlignmentType.LEFT,
-                    heading: isHeading ? HeadingLevel.HEADING_3 : undefined
-                  })
-                ]
-              });
+              }
             }
           }
           
@@ -414,6 +375,41 @@ class ConversionService {
     return idCardPattern.test(text);
   }
 
+  // 检测粗体字体
+  private detectBoldFont(fontName: string, fontSize: number): boolean {
+    const name = fontName.toLowerCase();
+    return name.includes('bold') || 
+           name.includes('black') || 
+           name.includes('heavy') ||
+           name.includes('demibold') ||
+           name.includes('semibold') ||
+           (fontSize > 14 && name.includes('regular')); // 大字体可能是标题
+  }
+
+  // 检测斜体字体
+  private detectItalicFont(fontName: string): boolean {
+    const name = fontName.toLowerCase();
+    return name.includes('italic') || 
+           name.includes('oblique') ||
+           name.includes('slanted');
+  }
+
+  // 提取文本颜色
+  private extractTextColor(item: any): string | undefined {
+    if (item.transform && item.transform.length >= 6) {
+      // 检查是否有颜色信息
+      const transform = item.transform;
+      if (transform.length > 6) {
+        // 如果有颜色信息，提取RGB值
+        const r = Math.round(transform[6] * 255);
+        const g = Math.round(transform[7] * 255);
+        const b = Math.round(transform[8] * 255);
+        return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+      }
+    }
+    return undefined;
+  }
+
   async convertFile(file: File, options: ConversionOptions): Promise<ConversionResult> {
     try {
       const fileExtension = file.name.toLowerCase().split('.').pop();
@@ -470,6 +466,277 @@ class ConversionService {
     }
     const blob = new Blob([buffer], { type: 'application/octet-stream' });
     saveAs(blob, fileName);
+  }
+
+  // 将文本块分组为行
+  private groupTextIntoLines(textBlocks: any[]): any[][] {
+    if (textBlocks.length === 0) return [];
+    
+    // 按Y坐标排序并分组
+    textBlocks.sort((a, b) => b.y - a.y); // 从上到下排序
+    
+    const lines: any[][] = [];
+    let currentLine: any[] = [];
+    let lastY = textBlocks[0]?.y || 0;
+    
+    for (const block of textBlocks) {
+      // 使用更智能的行间距检测
+      const lineHeight = block.height || block.fontSize;
+      const tolerance = Math.max(3, lineHeight * 0.3);
+      
+      if (Math.abs(block.y - lastY) > tolerance) {
+        if (currentLine.length > 0) {
+          lines.push(currentLine);
+        }
+        currentLine = [block];
+      } else {
+        currentLine.push(block);
+      }
+      lastY = block.y;
+    }
+    if (currentLine.length > 0) {
+      lines.push(currentLine);
+    }
+    
+    return lines;
+  }
+
+  // 将行分组为段落
+  private groupLinesIntoParagraphs(lines: any[][]): any[][] {
+    if (lines.length === 0) return [];
+    
+    const paragraphs: any[][] = [];
+    let currentParagraph: any[] = [];
+    
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      const nextLine = lines[i + 1];
+      
+      // 按X坐标排序，保持水平顺序
+      line.sort((a, b) => a.x - b.x);
+      
+      currentParagraph.push(line);
+      
+      // 检测段落结束条件
+      const isParagraphEnd = this.isParagraphEnd(line, nextLine);
+      
+      if (isParagraphEnd || i === lines.length - 1) {
+        paragraphs.push([...currentParagraph]);
+        currentParagraph = [];
+      }
+    }
+    
+    return paragraphs;
+  }
+
+  // 检测段落结束
+  private isParagraphEnd(currentLine: any[], nextLine?: any[]): boolean {
+    if (!nextLine || nextLine.length === 0) return true;
+    
+    // 检查缩进变化（新段落通常有不同缩进）
+    const currentIndent = this.getLineIndent(currentLine);
+    const nextIndent = this.getLineIndent(nextLine);
+    
+    // 检查字体大小变化（标题通常字体更大）
+    const currentFontSize = this.getAverageFontSize(currentLine);
+    const nextFontSize = this.getAverageFontSize(nextLine);
+    
+    // 检查是否为列表项
+    const isCurrentListItem = this.isListItem(currentLine);
+    const isNextListItem = this.isListItem(nextLine);
+    
+    // 段落结束条件
+    return (
+      Math.abs(currentIndent - nextIndent) > 20 || // 缩进变化大
+      Math.abs(currentFontSize - nextFontSize) > 2 || // 字体大小变化大
+      (isCurrentListItem && !isNextListItem) || // 列表项结束
+      (!isCurrentListItem && isNextListItem) // 开始新的列表
+    );
+  }
+
+  // 获取行缩进
+  private getLineIndent(line: any[]): number {
+    if (line.length === 0) return 0;
+    return Math.min(...line.map(block => block.x));
+  }
+
+  // 获取平均字体大小
+  private getAverageFontSize(line: any[]): number {
+    if (line.length === 0) return 12;
+    return line.reduce((sum, block) => sum + block.fontSize, 0) / line.length;
+  }
+
+  // 检测是否为列表项
+  private isListItem(line: any[]): boolean {
+    if (line.length === 0) return false;
+    
+    const firstBlock = line[0];
+    const text = firstBlock.text.trim();
+    
+    // 检测列表标记
+    const listPatterns = [
+      /^[\d]+[\.\)]\s/, // 数字列表 1. 或 1)
+      /^[a-zA-Z][\.\)]\s/, // 字母列表 a. 或 a)
+      /^[•·▪▫]\s/, // 项目符号
+      /^[-*+]\s/, // 破折号列表
+      /^[\u2022\u2023\u25E6\u2043]\s/ // Unicode 项目符号
+    ];
+    
+    return listPatterns.some(pattern => pattern.test(text));
+  }
+
+  // 从行创建段落
+  private createParagraphFromLines(lines: any[][]): Paragraph | null {
+    if (lines.length === 0) return null;
+    
+    const allTextRuns: TextRun[] = [];
+    let paragraphIndent = 0;
+    let paragraphAlignment = AlignmentType.LEFT;
+    let paragraphHeading: typeof HeadingLevel[keyof typeof HeadingLevel] | undefined;
+    
+    for (const line of lines) {
+      if (line.length === 0) continue;
+      
+      // 按X坐标排序，保持水平顺序
+      line.sort((a, b) => a.x - b.x);
+      
+      // 计算段落缩进（使用第一行的缩进）
+      if (paragraphIndent === 0) {
+        paragraphIndent = this.getLineIndent(line);
+      }
+      
+      // 创建文本运行，保留格式
+      const lineTextRuns = line.map(block => {
+        const runOptions: any = {
+          text: block.text
+        };
+        
+        // 设置字体大小（转换为Word的点数）
+        if (block.fontSize > 0) {
+          runOptions.size = Math.round(block.fontSize * 0.75); // PDF单位转Word点数
+        }
+        
+        // 设置粗体
+        if (block.isBold) {
+          runOptions.bold = true;
+        }
+        
+        // 设置斜体
+        if (block.isItalic) {
+          runOptions.italics = true;
+        }
+        
+        // 设置颜色
+        if (block.color) {
+          runOptions.color = block.color;
+        }
+        
+        return new TextRun(runOptions);
+      });
+      
+      allTextRuns.push(...lineTextRuns);
+      
+      // 如果不是最后一行，添加换行
+      if (lines.indexOf(line) < lines.length - 1) {
+        allTextRuns.push(new TextRun({ text: ' ', break: 1 }));
+      }
+    }
+    
+    // 检测段落类型和样式
+    const firstLine = lines[0];
+    const avgFontSize = this.getAverageFontSize(firstLine);
+    const hasBoldText = firstLine.some(block => block.isBold);
+    
+    // 确定段落标题级别
+    if (avgFontSize > 16 || (avgFontSize > 14 && hasBoldText)) {
+      paragraphHeading = HeadingLevel.HEADING_1;
+    } else if (avgFontSize > 14 || hasBoldText) {
+      paragraphHeading = HeadingLevel.HEADING_2;
+    } else if (avgFontSize > 12) {
+      paragraphHeading = HeadingLevel.HEADING_3;
+    }
+    
+    // 确定段落对齐方式
+    const indent = this.getLineIndent(firstLine);
+    if (indent > 50) {
+      paragraphAlignment = AlignmentType.LEFT; // 缩进大的可能是引用或特殊段落
+    }
+    
+    return new Paragraph({
+      children: allTextRuns,
+      alignment: paragraphAlignment,
+      heading: paragraphHeading,
+      indent: {
+        left: Math.max(0, paragraphIndent * 0.75) // 转换为Word单位
+      }
+    });
+  }
+
+  // 检测表格结构
+  private detectTableStructure(lines: any[][]): boolean {
+    if (lines.length < 2) return false;
+    
+    // 检查是否有多个列对齐
+    const columnPositions = new Set<number>();
+    
+    for (const line of lines) {
+      for (const block of line) {
+        // 收集X坐标，看是否有列对齐
+        columnPositions.add(Math.round(block.x / 10) * 10); // 10像素容差
+      }
+    }
+    
+    // 如果有3个或更多列位置，可能是表格
+    return columnPositions.size >= 3;
+  }
+
+  // 创建表格段落
+  private createTableParagraph(lines: any[][]): Paragraph | null {
+    if (lines.length === 0) return null;
+    
+    // 收集所有列位置
+    const columnPositions = new Set<number>();
+    for (const line of lines) {
+      for (const block of line) {
+        columnPositions.add(Math.round(block.x / 10) * 10);
+      }
+    }
+    
+    const sortedColumns = Array.from(columnPositions).sort((a, b) => a - b);
+    
+    // 为每行创建表格文本
+    const tableRows: string[] = [];
+    
+    for (const line of lines) {
+      const rowCells: string[] = [];
+      
+      // 按列位置分组文本
+      for (const colPos of sortedColumns) {
+        const cellTexts = line
+          .filter(block => Math.abs(block.x - colPos) <= 10)
+          .map(block => block.text)
+          .join('');
+        
+        rowCells.push(cellTexts || ' ');
+      }
+      
+      tableRows.push(rowCells.join(' | '));
+    }
+    
+    // 创建表格样式的段落
+    const tableText = tableRows.join('\n');
+    
+    return new Paragraph({
+      children: [new TextRun({
+        text: tableText,
+        size: 10,
+        font: 'Courier New' // 等宽字体更适合表格
+      })],
+      alignment: AlignmentType.LEFT,
+      spacing: {
+        after: 200 // 表格后增加间距
+      }
+    });
   }
 
   async cleanup() {

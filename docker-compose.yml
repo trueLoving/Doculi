@@ -1,0 +1,67 @@
+# DocuSynapse Full Stack Docker Compose
+version: '3.8'
+
+services:
+  # Frontend (Web App)
+  frontend:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_MCP_SERVER_URL=http://mcp-server:8000
+      - VITE_LOCAL_LLM_ENABLED=true
+    depends_on:
+      - mcp-server
+    volumes:
+      - ./apps/web:/app
+      - /app/node_modules
+    command: npm run dev
+
+  # MCP Server (Backend)
+  mcp-server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+      - "11434:11434"  # Ollama port
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+      - MCP_HOST=0.0.0.0
+      - MCP_PORT=8000
+    volumes:
+      - ./server/uploads:/app/uploads
+      - ./server/temp:/app/temp
+      - ./server/logs:/app/logs
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Documentation Site (Optional)
+  docs:
+    build:
+      context: ./docs
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./docs:/app
+      - /app/node_modules
+    command: npm run dev
+
+volumes:
+  ollama_data:
+    driver: local
+
+networks:
+  default:
+    name: docuSynapse-network
