@@ -138,3 +138,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+packages/wasm/target
