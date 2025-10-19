@@ -151,7 +151,7 @@ function App() {
           {/* 标题区域 */}
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-blue-600 mb-2">
-              DocuSynapse
+              Doculi
             </h1>
             <p className="text-lg text-gray-600">
               智能文档转换平台 - 支持PDF、DOCX、扫描件互转

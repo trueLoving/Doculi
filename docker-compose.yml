@@ -1,4 +1,4 @@
-# DocuSynapse Full Stack Docker Compose
+# Doculi Full Stack Docker Compose
 version: '3.8'
 
 services:
@@ -64,4 +64,4 @@ volumes:
 
 networks:
   default:
-    name: docuSynapse-network
+    name: doculi-network

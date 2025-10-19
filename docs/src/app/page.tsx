@@ -10,7 +10,7 @@ export default function Home() {
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <h1 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-                  DocuSynapse
+                  Doculi
                 </h1>
               </div>
             </div>
@@ -48,7 +48,7 @@ export default function Home() {
                 <span className="text-indigo-600 dark:text-indigo-400 block">让工作更高效</span>
               </h1>
               <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
-                DocuSynapse是一个强大的智能文档处理平台，提供文档转换、分析和处理功能，
+                Doculi是一个强大的智能文档处理平台，提供文档转换、分析和处理功能，
                 让您的文档工作更加高效、智能。
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -171,7 +171,7 @@ export default function Home() {
                 适用场景
               </h2>
               <p className="text-xl text-indigo-100">
-                无论您是个人用户还是企业团队，DocuSynapse都能满足您的需求
+                无论您是个人用户还是企业团队，Doculi都能满足您的需求
               </p>
             </div>
             
@@ -223,7 +223,7 @@ export default function Home() {
         <section className="py-20 bg-gray-900 dark:bg-gray-950">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              准备开始使用DocuSynapse？
+              准备开始使用Doculi？
             </h2>
             <p className="text-xl text-gray-300 mb-8">
               立即体验我们的智能文档处理平台，让工作变得更加高效
@@ -245,7 +245,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="text-xl font-bold mb-4">DocuSynapse</h3>
+              <h3 className="text-xl font-bold mb-4">Doculi</h3>
               <p className="text-gray-400">
                 智能文档处理平台，让您的文档工作更加高效。
               </p>
@@ -270,14 +270,14 @@ export default function Home() {
             <div>
               <h4 className="text-lg font-semibold mb-4">联系我们</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>邮箱: contact@docusynapse.com</li>
+                <li>邮箱: contact@doculi.com</li>
                 <li>电话: +86 400-123-4567</li>
                 <li>地址: 北京市朝阳区</li>
               </ul>
             </div>
           </div>
           <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 DocuSynapse. 保留所有权利。</p>
+            <p>&copy; 2024 Doculi. 保留所有权利。</p>
           </div>
         </div>
       </footer>

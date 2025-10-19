@@ -169,9 +169,9 @@ class ConversionService {
 
       const doc = new Document({
         sections,
-        creator: "DocuSynapse",
+        creator: "Doculi",
         title: file.name.replace(/\.pdf$/i, ''),
-        description: "由DocuSynapse智能转换生成"
+        description: "由Doculi智能转换生成"
       });
 
       // 在浏览器环境中使用 toBlob
@@ -255,7 +255,7 @@ class ConversionService {
           });
           
           // 添加页脚水印
-          page.drawText(`DocuSynapse - ${options.watermarkText}`, {
+          page.drawText(`Doculi - ${options.watermarkText}`, {
             x: margin,
             y: 30,
             size: 8,
@@ -343,7 +343,7 @@ class ConversionService {
       // 添加页脚信息
       const pages = pdfDoc.getPages();
       for (const page of pages) {
-        page.drawText('DocuSynapse OCR转换', {
+        page.drawText('Doculi OCR转换', {
           x: margin,
           y: 30,
           size: 8,

@@ -1,6 +1,6 @@
-# DocuSynapse Server
+# Doculi Server
 
-DocuSynapse的后端服务，基于MCP（Model Context Protocol）协议，提供本地LLM驱动的文档转换服务。
+Doculi的后端服务，基于MCP（Model Context Protocol）协议，提供本地LLM驱动的文档转换服务。
 
 ## 🏗️ 架构
 

@@ -1,4 +1,4 @@
-# DocuSynapse MVP
+# Doculi MVP
 
 智能文档转换平台 - 支持PDF、DOCX、扫描件互转
 

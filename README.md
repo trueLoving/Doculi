@@ -1,4 +1,4 @@
-# DocuSynapse
+# Doculi
 
 > 基于 WASM + AI 的智能文档转换与安全处理平台
 
@@ -8,7 +8,7 @@
 
 ## 🚀 项目简介
 
-DocuSynapse 是一个创新的文档处理平台，结合了 WebAssembly (WASM) 技术和本地 AI 模型，提供高性能的文档转换、OCR 识别和安全处理。支持完全本地化的文档处理能力，同时集成了 MCP 协议和多种本地 LLM 服务。
+Doculi 是一个创新的文档处理平台，结合了 WebAssembly (WASM) 技术和本地 AI 模型，提供高性能的文档转换、OCR 识别和安全处理。支持完全本地化的文档处理能力，同时集成了 MCP 协议和多种本地 LLM 服务。
 
 ### ✨ 核心特性
 
@@ -26,7 +26,7 @@ DocuSynapse 是一个创新的文档处理平台，结合了 WebAssembly (WASM) 
 ### Monorepo 结构
 
 ```
-DocuSynapse/
+Doculi/
 ├── apps/
 │   ├── web/          # React Web 应用 (前端)
 │   └── desktop/      # 桌面应用 (计划中)
@@ -71,8 +71,8 @@ DocuSynapse/
 
 ```bash
 # 克隆项目
-git clone https://github.com/starsky/DocuSynapse.git
-cd DocuSynapse
+git clone https://github.com/starsky/Doculi.git
+cd Doculi
 
 # 启动全栈服务
 docker-compose up -d
@@ -222,8 +222,8 @@ pnpm --filter ui publish
 ## 📞 联系我们
 
 - **作者**：starsky
-- **项目地址**：https://github.com/starsky/DocuSynapse
-- **问题反馈**：https://github.com/starsky/DocuSynapse/issues
+- **项目地址**：https://github.com/starsky/Doculi
+- **问题反馈**：https://github.com/starsky/Doculi/issues
 
 ---
 
