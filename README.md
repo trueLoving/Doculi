@@ -5,58 +5,65 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D22.0.0-brightgreen)](https://nodejs.org/)
 [![pnpm](https://img.shields.io/badge/pnpm-%3E%3D8.0.0-orange)](https://pnpm.io/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Web%20App-blue)](https://doculi-web.vercel.app/)
+[![Documentation](https://img.shields.io/badge/Documentation-Docs%20Site-green)](https://doculi-docs.vercel.app/)
 
 ## 🚀 项目简介
 
-Doculi 是一个创新的文档处理平台，结合了 WebAssembly (WASM) 技术和本地 AI 模型，提供高性能的文档转换、OCR 识别和安全处理。支持完全本地化的文档处理能力，同时集成了 MCP 协议和多种本地 LLM 服务。
+Doculi 是一个创新的 Web 端文档处理平台，结合了 WebAssembly (WASM) 技术，提供高性能的文档转换、OCR 识别和安全处理。所有处理都在浏览器中完成，保护用户数据隐私。
 
 ### ✨ 核心特性
 
 - 🔄 **多格式转换**：PDF ↔ DOCX 双向转换
-- 🤖 **AI 增强转换**：基于本地 LLM 的智能文档处理
 - 👁️ **智能 OCR**：扫描件图片转可搜索 PDF
 - 🔒 **安全水印**：文档水印和敏感信息检测
 - ⚡ **高性能处理**：基于 WASM 的本地化处理
 - 🧵 **多线程支持**：Web Workers 保障界面流畅
-- 🏠 **本地化部署**：支持 Ollama、LM Studio 等本地 LLM
-- 🔗 **MCP 协议**：标准化的工具调用协议
+- 🔒 **隐私保护**：所有处理在浏览器中完成，数据不上传
 
 ## 🏗️ 技术架构
 
-### Monorepo 结构
+### 项目结构
 
 ```
 Doculi/
 ├── apps/
-│   ├── web/          # React Web 应用 (前端)
-│   └── desktop/      # 桌面应用 (计划中)
-├── server/           # Python MCP 服务器 (后端)
+│   └── web/          # React Web 应用
 ├── packages/
 │   └── ui/           # 共享 UI 组件库
 ├── docs/             # Next.js 文档站点
-└── docker-compose.yml # 全栈部署配置
+└── README.md         # 项目说明
 ```
 
 ### 技术栈
 
-**前端 (apps/web)**
+**Web 应用**
 - **框架**：React 18 + TypeScript + Vite
 - **样式**：Tailwind CSS
 - **状态管理**：React Hooks
-- **文档处理**：pdf-lib + tesseract.js + docx-pdf
+- **文档处理**：pdf-lib + tesseract.js + docx
 - **WASM 支持**：WebAssembly 模块
 - **多线程**：Web Workers + Comlink
 
-**后端 (server)**
-- **框架**：Python FastAPI
-- **LLM 集成**：Ollama + LM Studio
-- **协议**：MCP (Model Context Protocol)
-- **文档处理**：AI 驱动的智能转换
-- **部署**：Docker + Docker Compose
-
-**文档 (docs)**
+**文档站点**
 - **框架**：Next.js + MDX
 - **功能**：项目文档、API 文档、使用指南
+
+## 🌐 在线体验
+
+### 立即试用
+
+- **🚀 Web 应用**: [https://doculi-web.vercel.app/](https://doculi-web.vercel.app/) - 在线文档转换平台
+- **📚 文档站点**: [https://doculi-docs.vercel.app/](https://doculi-docs.vercel.app/) - 完整的产品文档和使用指南
+
+### 功能演示
+
+访问 [Web 应用](https://doculi-web.vercel.app/) 可以体验：
+- PDF ↔ DOCX 双向转换
+- 扫描件 OCR 识别
+- 智能水印添加
+- 敏感信息检测
+- 实时进度显示
 
 ## 🚀 快速开始
 
@@ -64,38 +71,20 @@ Doculi/
 
 - Node.js >= 22.0.0
 - pnpm >= 8.0.0
-- Python >= 3.11 (用于后端服务)
-- Docker & Docker Compose (可选)
+- 现代浏览器（支持 Web Workers 和 WASM）
 
-### 方式一：Docker 部署 (推荐)
+### 本地开发
 
 ```bash
 # 克隆项目
 git clone https://github.com/starsky/Doculi.git
 cd Doculi
 
-# 启动全栈服务
-docker-compose up -d
-
-# 访问应用
-# 前端: http://localhost:3000
-# 后端API: http://localhost:8000
-# 文档: http://localhost:3001
-```
-
-### 方式二：本地开发
-
-```bash
 # 安装依赖
 pnpm install
 
-# 启动后端服务
-cd server
-pip install -r requirements.txt
-python mcp_server.py &
-
-# 启动前端服务
-cd ../apps/web
+# 启动 Web 应用
+cd apps/web
 pnpm dev
 
 # 启动文档站点
@@ -105,28 +94,19 @@ pnpm dev
 
 ## 📦 项目结构
 
-### Apps
-
-#### Web 应用 (`apps/web`)
+### Web 应用 (`apps/web`)
 - **技术栈**：React 18 + TypeScript + Vite + Tailwind CSS
-- **功能**：文档转换、OCR 处理、AI 增强转换、安全检测
-- **端口**：http://localhost:3000
+- **功能**：文档转换、OCR 处理、安全检测
+- **本地端口**：http://localhost:3000
+- **在线演示**：[https://doculi-web.vercel.app/](https://doculi-web.vercel.app/)
 
-#### 文档站点 (`docs`)
+### 文档站点 (`docs`)
 - **技术栈**：Next.js + MDX
 - **功能**：项目文档、API 文档、使用指南
-- **端口**：http://localhost:3001
+- **本地端口**：http://localhost:3001
+- **在线文档**：[https://doculi-docs.vercel.app/](https://doculi-docs.vercel.app/)
 
-### Server
-
-#### MCP 服务器 (`server`)
-- **技术栈**：Python FastAPI + Ollama/LM Studio
-- **功能**：MCP 协议服务、AI 文档转换、本地 LLM 管理
-- **端口**：http://localhost:8000
-
-### Packages
-
-#### UI 组件库 (`packages/ui`)
+### UI 组件库 (`packages/ui`)
 - **技术栈**：React + TypeScript + tsup
 - **功能**：共享组件、设计系统
 - **发布**：npm 包
@@ -138,16 +118,14 @@ pnpm dev
 | 功能 | 技术方案 | 状态 |
 |------|----------|------|
 | PDF → DOCX | pdf-lib.js + WASM | ✅ 已实现 |
-| DOCX → PDF | docx-pdf + Puppeteer Core WASM | ✅ 已实现 |
+| DOCX → PDF | docx + WASM | ✅ 已实现 |
 | 扫描件 OCR | Tesseract.js WASM | ✅ 已实现 |
-| AI 增强转换 | 本地 LLM + MCP 协议 | ✅ 已实现 |
 
-### 2. AI 增强功能
+### 2. 智能处理功能
 
 - **智能格式识别**：自动识别文档结构（标题、段落、列表）
 - **内容理解**：保持语义结构和逻辑顺序
 - **质量提升**：95%格式保留率，智能错误纠正
-- **本地化处理**：支持 Ollama、LM Studio 等本地 LLM
 
 ### 3. 安全增强模块
 
@@ -160,21 +138,23 @@ pnpm dev
 - **Web Workers**：Comlink 封装耗时操作
 - **进度可视化**：环形进度条 + 文件大小估算
 - **WASM 优化**：本地化处理，无网络依赖
-- **MCP 协议**：标准化的工具调用接口
 
-## 📋 开发计划
+## 🎯 使用场景
 
-### MVP 版本 (7天)
+### 企业办公
+- **合同文档处理**：PDF 合同转换为 Word 格式便于编辑
+- **报告生成**：扫描件发票转换为可搜索 PDF
+- **文档安全**：添加水印保护敏感文档
 
-- [x] **Day 1**: 项目基础架构搭建
-- [ ] **Day 2**: PDF→DOCX 转换引擎
-- [ ] **Day 3**: DOCX→PDF + 水印基础
-- [ ] **Day 4**: 扫描件 OCR 集成
-- [ ] **Day 5**: Web Workers 多线程架构
-- [ ] **Day 6**: 安全模块开发
-- [ ] **Day 7**: 前端界面 + 联调测试
+### 教育培训
+- **教学资料转换**：PDF 课件转换为 Word 格式便于修改
+- **作业处理**：扫描件作业转换为可编辑文档
+- **资料整理**：批量处理教学文档
 
-详细计划请查看 [plan.md](./plan.md)
+### 个人使用
+- **文档编辑**：PDF 文档转换为 Word 进行编辑
+- **扫描件处理**：照片转文字，提高工作效率
+- **格式统一**：不同格式文档统一处理
 
 ## 🛠️ 开发指南
 
@@ -195,14 +175,13 @@ pnpm dev
 ### 发布流程
 
 ```bash
-# 构建所有包
+# 构建 Web 应用
+cd apps/web
 pnpm build
 
-# 运行测试
-pnpm test
-
-# 发布包（需要 npm 权限）
-pnpm --filter ui publish
+# 构建文档站点
+cd ../../docs
+pnpm build
 ```
 
 ## 🤝 贡献指南
@@ -224,6 +203,8 @@ pnpm --filter ui publish
 - **作者**：starsky
 - **项目地址**：https://github.com/starsky/Doculi
 - **问题反馈**：https://github.com/starsky/Doculi/issues
+- **在线演示**：[https://doculi-web.vercel.app/](https://doculi-web.vercel.app/)
+- **产品文档**：[https://doculi-docs.vercel.app/](https://doculi-docs.vercel.app/)
 
 ---
 

@@ -12,6 +12,12 @@
   "author": "starsky",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "dev:web":"pnpm --filter doculi-web dev",
+    "build:web":"pnpm --filter doculi-web build",
+    "docs:dev":"pnpm --filter doculi-docs dev",
+    "docs:build":"pnpm --filter doculi-docs build"
+  },
   "devDependencies": {
     "@types/node": "^22.0.0",
     "typescript": "^5.0.0"
