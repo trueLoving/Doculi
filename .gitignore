@@ -140,3 +140,4 @@ yarn-error.log*
 next-env.d.ts
 
 packages/wasm/target
+dist-electron

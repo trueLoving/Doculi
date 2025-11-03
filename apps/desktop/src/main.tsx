@@ -1,3 +1,9 @@
+/**
+ * TODO:
+ * 0.1.0 桌面端版本需求：
+ *  pdf -> doc 转化
+ *  doc -> pdf 转换
+ */
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
