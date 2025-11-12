@@ -50,7 +50,7 @@ export const LocalLLMConfigDialog: React.FC<LocalLLMConfigDialogProps> = ({
   open,
   onClose,
   onSave,
-  currentConfig
+  currentConfig,
 }) => {
   const [providers, setProviders] = useState<LocalLLMProvider[]>([]);
   const [selectedProvider, setSelectedProvider] = useState<string>('');
@@ -63,7 +63,7 @@ export const LocalLLMConfigDialog: React.FC<LocalLLMConfigDialogProps> = ({
     maxTokens: 4000,
     temperature: 0.1,
     timeout: 30000,
-    autoStart: true
+    autoStart: true,
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>('');
@@ -94,18 +94,18 @@ export const LocalLLMConfigDialog: React.FC<LocalLLMConfigDialogProps> = ({
           description: 'Ollama是一个本地LLM运行工具，支持多种开源模型',
           requirements: {
             minRAM: '8GB',
-            cpuCores: 4
-          }
-        }
+            cpuCores: 4,
+          },
+        },
       ];
       setProviders(providerList);
-      
+
       // 模拟系统资源
       setSystemResources({
         ram: '16GB',
         vram: '8GB',
         cpuCores: 8,
-        availableRAM: '12GB'
+        availableRAM: '12GB',
       });
     } catch (error) {
       setError(`加载提供商失败: ${error}`);
@@ -115,17 +115,17 @@ export const LocalLLMConfigDialog: React.FC<LocalLLMConfigDialogProps> = ({
   const handleProviderChange = async (providerName: string) => {
     setSelectedProvider(providerName);
     setConfig((prev: LocalLLMConfig) => ({ ...prev, provider: providerName }));
-    
-    const provider = providers.find(p => p.name === providerName);
+
+    const provider = providers.find((p) => p.name === providerName);
     if (provider) {
       setConfig((prev: LocalLLMConfig) => ({ ...prev, endpoint: provider.endpoint }));
-      
+
       // 模拟系统要求检查
       setRequirementsCheck({
         meetsRequirements: true,
-        issues: []
+        issues: [],
       });
-      
+
       // 模拟加载可用模型
       try {
         setIsLoading(true);
@@ -136,11 +136,11 @@ export const LocalLLMConfigDialog: React.FC<LocalLLMConfigDialogProps> = ({
             parameters: '8B',
             description: 'Meta的Llama 3.1模型，强大的通用语言模型',
             isDownloaded: true,
-            isRunning: false
-          }
+            isRunning: false,
+          },
         ];
         setAvailableModels(models);
-        
+
         if (models.length > 0) {
           setSelectedModel(models[0].name);
           setConfig((prev: LocalLLMConfig) => ({ ...prev, model: models[0].name }));
@@ -162,14 +162,14 @@ export const LocalLLMConfigDialog: React.FC<LocalLLMConfigDialogProps> = ({
     try {
       setIsLoading(true);
       setError('');
-      
+
       // 模拟连接测试
       const isAvailable = true; // 模拟连接成功
       if (!isAvailable) {
         setError('无法连接到本地LLM服务，请确保服务正在运行');
         return;
       }
-      
+
       const testResult = true; // 模拟测试成功
       if (testResult) {
         setError('');
@@ -189,7 +189,7 @@ export const LocalLLMConfigDialog: React.FC<LocalLLMConfigDialogProps> = ({
       setError('请选择提供商和模型');
       return;
     }
-    
+
     onSave(config);
     onClose();
   };
@@ -199,13 +199,13 @@ export const LocalLLMConfigDialog: React.FC<LocalLLMConfigDialogProps> = ({
       name: provider.name,
       description: provider.description,
       requirements: provider.requirements,
-      endpoint: provider.endpoint
+      endpoint: provider.endpoint,
     };
   };
 
   if (!open) return null;
 
-  const selectedProviderInfo = providers.find(p => p.name === selectedProvider);
+  const selectedProviderInfo = providers.find((p) => p.name === selectedProvider);
   const providerInfo = selectedProviderInfo ? getProviderInfo(selectedProviderInfo) : null;
 
   return (
@@ -221,8 +221,18 @@ export const LocalLLMConfigDialog: React.FC<LocalLLMConfigDialogProps> = ({
             onClick={onClose}
             className="p-2 hover:bg-gray-100 rounded-full transition-colors"
           >
-            <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg
+              className="w-5 h-5 text-gray-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
@@ -257,9 +267,7 @@ export const LocalLLMConfigDialog: React.FC<LocalLLMConfigDialogProps> = ({
 
             {/* 提供商选择 */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
-                选择LLM提供商
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-3">选择LLM提供商</label>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {providers.map((provider) => (
                   <div
@@ -275,11 +283,10 @@ export const LocalLLMConfigDialog: React.FC<LocalLLMConfigDialogProps> = ({
                       <div className="text-lg font-semibold text-gray-900 mb-1">
                         {provider.name}
                       </div>
-                      <div className="text-xs text-gray-500 mb-2">
-                        {provider.description}
-                      </div>
+                      <div className="text-xs text-gray-500 mb-2">{provider.description}</div>
                       <div className="text-xs text-gray-400">
-                        最小要求: {provider.requirements.minRAM} RAM, {provider.requirements.cpuCores} CPU核心
+                        最小要求: {provider.requirements.minRAM} RAM,{' '}
+                        {provider.requirements.cpuCores} CPU核心
                       </div>
                     </div>
                   </div>
@@ -289,14 +296,18 @@ export const LocalLLMConfigDialog: React.FC<LocalLLMConfigDialogProps> = ({
 
             {/* 系统要求检查 */}
             {requirementsCheck && (
-              <div className={`p-4 rounded-lg ${
-                requirementsCheck.meetsRequirements 
-                  ? 'bg-green-50 border border-green-200' 
-                  : 'bg-red-50 border border-red-200'
-              }`}>
-                <h3 className={`font-medium mb-2 ${
-                  requirementsCheck.meetsRequirements ? 'text-green-900' : 'text-red-900'
-                }`}>
+              <div
+                className={`p-4 rounded-lg ${
+                  requirementsCheck.meetsRequirements
+                    ? 'bg-green-50 border border-green-200'
+                    : 'bg-red-50 border border-red-200'
+                }`}
+              >
+                <h3
+                  className={`font-medium mb-2 ${
+                    requirementsCheck.meetsRequirements ? 'text-green-900' : 'text-red-900'
+                  }`}
+                >
                   系统要求检查
                 </h3>
                 {requirementsCheck.meetsRequirements ? (
@@ -317,9 +328,7 @@ export const LocalLLMConfigDialog: React.FC<LocalLLMConfigDialogProps> = ({
             {/* 模型选择 */}
             {selectedProvider && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  选择模型
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">选择模型</label>
                 {isLoading ? (
                   <div className="flex items-center justify-center p-8">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
@@ -348,14 +357,22 @@ export const LocalLLMConfigDialog: React.FC<LocalLLMConfigDialogProps> = ({
                           </div>
                         </div>
                         <div className="mt-2 flex items-center space-x-2">
-                          <span className={`text-xs px-2 py-1 rounded ${
-                            model.isDownloaded ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-                          }`}>
+                          <span
+                            className={`text-xs px-2 py-1 rounded ${
+                              model.isDownloaded
+                                ? 'bg-green-100 text-green-800'
+                                : 'bg-gray-100 text-gray-800'
+                            }`}
+                          >
                             {model.isDownloaded ? '已下载' : '未下载'}
                           </span>
-                          <span className={`text-xs px-2 py-1 rounded ${
-                            model.isRunning ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'
-                          }`}>
+                          <span
+                            className={`text-xs px-2 py-1 rounded ${
+                              model.isRunning
+                                ? 'bg-blue-100 text-blue-800'
+                                : 'bg-gray-100 text-gray-800'
+                            }`}
+                          >
                             {model.isRunning ? '运行中' : '未运行'}
                           </span>
                         </div>
@@ -369,21 +386,21 @@ export const LocalLLMConfigDialog: React.FC<LocalLLMConfigDialogProps> = ({
             {/* 高级设置 */}
             <div className="border-t pt-6">
               <h3 className="text-lg font-medium text-gray-900 mb-4">高级设置</h3>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    服务端点
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">服务端点</label>
                   <input
                     type="text"
                     value={config.endpoint}
-                    onChange={(e) => setConfig((prev: LocalLLMConfig) => ({ ...prev, endpoint: e.target.value }))}
+                    onChange={(e) =>
+                      setConfig((prev: LocalLLMConfig) => ({ ...prev, endpoint: e.target.value }))
+                    }
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="http://localhost:11434"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     最大Token数
@@ -391,13 +408,18 @@ export const LocalLLMConfigDialog: React.FC<LocalLLMConfigDialogProps> = ({
                   <input
                     type="number"
                     value={config.maxTokens}
-                    onChange={(e) => setConfig((prev: LocalLLMConfig) => ({ ...prev, maxTokens: parseInt(e.target.value) }))}
+                    onChange={(e) =>
+                      setConfig((prev: LocalLLMConfig) => ({
+                        ...prev,
+                        maxTokens: parseInt(e.target.value),
+                      }))
+                    }
                     min="100"
                     max="8000"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     温度 (Temperature)
@@ -405,14 +427,19 @@ export const LocalLLMConfigDialog: React.FC<LocalLLMConfigDialogProps> = ({
                   <input
                     type="number"
                     value={config.temperature}
-                    onChange={(e) => setConfig((prev: LocalLLMConfig) => ({ ...prev, temperature: parseFloat(e.target.value) }))}
+                    onChange={(e) =>
+                      setConfig((prev: LocalLLMConfig) => ({
+                        ...prev,
+                        temperature: parseFloat(e.target.value),
+                      }))
+                    }
                     min="0"
                     max="2"
                     step="0.1"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     超时时间 (毫秒)
@@ -420,7 +447,12 @@ export const LocalLLMConfigDialog: React.FC<LocalLLMConfigDialogProps> = ({
                   <input
                     type="number"
                     value={config.timeout}
-                    onChange={(e) => setConfig((prev: LocalLLMConfig) => ({ ...prev, timeout: parseInt(e.target.value) }))}
+                    onChange={(e) =>
+                      setConfig((prev: LocalLLMConfig) => ({
+                        ...prev,
+                        timeout: parseInt(e.target.value),
+                      }))
+                    }
                     min="5000"
                     max="120000"
                     step="1000"
@@ -428,13 +460,18 @@ export const LocalLLMConfigDialog: React.FC<LocalLLMConfigDialogProps> = ({
                   />
                 </div>
               </div>
-              
+
               <div className="mt-4">
                 <label className="flex items-center">
                   <input
                     type="checkbox"
                     checked={config.autoStart}
-                    onChange={(e) => setConfig((prev: LocalLLMConfig) => ({ ...prev, autoStart: e.target.checked }))}
+                    onChange={(e) =>
+                      setConfig((prev: LocalLLMConfig) => ({
+                        ...prev,
+                        autoStart: e.target.checked,
+                      }))
+                    }
                     className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                   />
                   <span className="ml-2 text-sm text-gray-700">自动启动模型</span>
@@ -446,8 +483,18 @@ export const LocalLLMConfigDialog: React.FC<LocalLLMConfigDialogProps> = ({
             {error && (
               <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                 <div className="flex items-center">
-                  <svg className="w-5 h-5 text-red-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <svg
+                    className="w-5 h-5 text-red-400 mr-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
                   </svg>
                   <span className="text-red-800 text-sm">{error}</span>
                 </div>
@@ -457,17 +504,12 @@ export const LocalLLMConfigDialog: React.FC<LocalLLMConfigDialogProps> = ({
             {/* 提供商信息 */}
             {providerInfo && (
               <div className="bg-gray-50 p-4 rounded-lg">
-                <h4 className="font-medium text-gray-900 mb-2">
-                  {providerInfo.name} 信息
-                </h4>
-                <p className="text-sm text-gray-600 mb-2">
-                  {providerInfo.description}
-                </p>
-                <p className="text-xs text-gray-500 mb-2">
-                  服务端点: {providerInfo.endpoint}
-                </p>
+                <h4 className="font-medium text-gray-900 mb-2">{providerInfo.name} 信息</h4>
+                <p className="text-sm text-gray-600 mb-2">{providerInfo.description}</p>
+                <p className="text-xs text-gray-500 mb-2">服务端点: {providerInfo.endpoint}</p>
                 <p className="text-xs text-gray-500">
-                  最小要求: {providerInfo.requirements.minRAM} RAM, {providerInfo.requirements.cpuCores} CPU核心
+                  最小要求: {providerInfo.requirements.minRAM} RAM,{' '}
+                  {providerInfo.requirements.cpuCores} CPU核心
                 </p>
               </div>
             )}
@@ -483,7 +525,7 @@ export const LocalLLMConfigDialog: React.FC<LocalLLMConfigDialogProps> = ({
           >
             {isLoading ? '测试中...' : '测试连接'}
           </button>
-          
+
           <div className="flex items-center space-x-3">
             <button
               onClick={onClose}

@@ -16,14 +16,17 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [showSecurityDialog, setShowSecurityDialog] = useState(false);
-  const [pendingDownload, setPendingDownload] = useState<{data: Uint8Array, fileName: string} | null>(null);
+  const [pendingDownload, setPendingDownload] = useState<{
+    data: Uint8Array;
+    fileName: string;
+  } | null>(null);
   const [showPreview, setShowPreview] = useState(false);
 
   const handleFileSelect = useCallback((file: File) => {
     setSelectedFile(file);
     setError(null);
     setSuccess(null);
-    
+
     // 根据文件类型自动设置目标格式
     const extension = file.name.toLowerCase().split('.').pop();
     if (extension === 'pdf') {
@@ -54,7 +57,7 @@ function App() {
     setProgress(0);
     setError(null);
     setSuccess(null);
-    
+
     // 开始进度模拟
     simulateProgress();
     setProgressMessage('正在处理文件...');
@@ -62,7 +65,7 @@ function App() {
     try {
       const options: ConversionOptions = {
         targetFormat,
-        watermarkText: targetFormat === 'pdf' ? watermarkText : undefined
+        watermarkText: targetFormat === 'pdf' ? watermarkText : undefined,
       };
 
       // 使用Web Worker进行转换
@@ -150,37 +153,38 @@ function App() {
         <div className="card p-8">
           {/* 标题区域 */}
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-blue-600 mb-2">
-              Doculi
-            </h1>
-            <p className="text-lg text-gray-600">
-              智能文档转换平台 - 支持PDF、DOCX、扫描件互转
-            </p>
+            <h1 className="text-4xl font-bold text-blue-600 mb-2">Doculi</h1>
+            <p className="text-lg text-gray-600">智能文档转换平台 - 支持PDF、DOCX、扫描件互转</p>
           </div>
 
           {/* 文件上传区域 */}
           <div className="mb-8">
-            <FileUpload 
-              onFileSelect={handleFileSelect} 
-              disabled={isProcessing}
-            />
+            <FileUpload onFileSelect={handleFileSelect} disabled={isProcessing} />
           </div>
 
           {/* 文件信息卡片 */}
           {selectedFile && (
             <div className="card p-6 mb-6">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-lg font-semibold text-gray-900">
-                  文件信息
-                </h3>
+                <h3 className="text-lg font-semibold text-gray-900">文件信息</h3>
                 <button
                   onClick={handlePreviewFile}
                   disabled={isProcessing}
                   className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center space-x-2"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    />
                   </svg>
                   <span>预览文件</span>
                 </button>
@@ -193,7 +197,8 @@ function App() {
                   <span className="font-medium">文件类型:</span> {getFileTypeDescription()}
                 </p>
                 <p className="text-sm text-gray-600">
-                  <span className="font-medium">文件大小:</span> {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
+                  <span className="font-medium">文件大小:</span>{' '}
+                  {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
                 </p>
               </div>
             </div>
@@ -202,9 +207,7 @@ function App() {
           {/* 转换选项 */}
           <div className="flex flex-col sm:flex-row gap-4 mb-6">
             <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                目标格式
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">目标格式</label>
               <select
                 value={targetFormat}
                 onChange={(e) => setTargetFormat(e.target.value as 'pdf' | 'docx')}
@@ -218,9 +221,7 @@ function App() {
 
             {targetFormat === 'pdf' && (
               <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  水印文字
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">水印文字</label>
                 <input
                   type="text"
                   value={watermarkText}
@@ -236,27 +237,15 @@ function App() {
           {/* 进度条 */}
           {isProcessing && (
             <div className="mb-6">
-              <ProgressBar 
-                progress={progress} 
-                message={progressMessage}
-                variant="linear"
-              />
+              <ProgressBar progress={progress} message={progressMessage} variant="linear" />
             </div>
           )}
 
           {/* 错误提示 */}
-          {error && (
-            <div className="alert-error mb-6">
-              {error}
-            </div>
-          )}
+          {error && <div className="alert-error mb-6">{error}</div>}
 
           {/* 成功提示 */}
-          {success && (
-            <div className="alert-success mb-6">
-              {success}
-            </div>
-          )}
+          {success && <div className="alert-success mb-6">{success}</div>}
 
           {/* 转换按钮 */}
           <div className="text-center">
@@ -290,10 +279,7 @@ function App() {
 
         {/* 文件预览对话框 */}
         {showPreview && selectedFile && (
-          <FilePreview
-            file={selectedFile}
-            onClose={handleClosePreview}
-          />
+          <FilePreview file={selectedFile} onClose={handleClosePreview} />
         )}
       </div>
     </div>

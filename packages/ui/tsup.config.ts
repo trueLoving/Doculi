@@ -1,4 +1,4 @@
-import { defineConfig } from 'tsup'
+import { defineConfig } from 'tsup';
 
 export default defineConfig({
   entry: ['src/index.ts'],
@@ -9,5 +9,5 @@ export default defineConfig({
   sourcemap: true,
   minify: false,
   external: ['vite', 'unplugin', 'ts-node'],
-  noExternal: ['ts-node/dist/transpilers/swc.js']
-})
+  noExternal: ['ts-node/dist/transpilers/swc.js'],
+});

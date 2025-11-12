@@ -6,24 +6,20 @@ interface ProgressBarProps {
   variant?: 'circular' | 'linear';
 }
 
-export const ProgressBar: React.FC<ProgressBarProps> = ({ 
-  progress, 
-  message = '处理中...', 
-  variant = 'circular' 
+export const ProgressBar: React.FC<ProgressBarProps> = ({
+  progress,
+  message = '处理中...',
+  variant = 'circular',
 }) => {
   if (variant === 'linear') {
     return (
       <div className="w-full mb-4">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-medium text-gray-700 flex-1">
-            {message}
-          </span>
-          <span className="text-sm text-gray-500">
-            {Math.round(progress)}%
-          </span>
+          <span className="text-sm font-medium text-gray-700 flex-1">{message}</span>
+          <span className="text-sm text-gray-500">{Math.round(progress)}%</span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2">
-          <div 
+          <div
             className="bg-blue-600 h-2 rounded-full transition-all duration-300 ease-out"
             style={{ width: `${progress}%` }}
           />
@@ -56,19 +52,15 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
             d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
           />
         </svg>
-        
+
         {/* 百分比文字 */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-sm font-medium text-gray-600">
-            {Math.round(progress)}%
-          </span>
+          <span className="text-sm font-medium text-gray-600">{Math.round(progress)}%</span>
         </div>
       </div>
-      
+
       {/* 消息文字 */}
-      <p className="text-sm text-gray-600">
-        {message}
-      </p>
+      <p className="text-sm text-gray-600">{message}</p>
     </div>
   );
 };

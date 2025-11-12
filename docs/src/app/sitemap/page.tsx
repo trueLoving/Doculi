@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 export default function SitemapPage() {
   return (
@@ -16,19 +16,34 @@ export default function SitemapPage() {
             </div>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
-                <Link href="/" className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                <Link
+                  href="/"
+                  className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >
                   首页
                 </Link>
-                <Link href="/product" className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                <Link
+                  href="/product"
+                  className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >
                   产品介绍
                 </Link>
-                <Link href="/features" className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                <Link
+                  href="/features"
+                  className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >
                   功能特性
                 </Link>
-                <Link href="/tech" className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                <Link
+                  href="/tech"
+                  className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >
                   技术文档
                 </Link>
-                <Link href="/apps/web" className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                <Link
+                  href="/apps/web"
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                >
                   立即体验
                 </Link>
               </div>
@@ -54,16 +69,29 @@ export default function SitemapPage() {
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
             主要页面
           </h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow">
               <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900 rounded-lg flex items-center justify-center mb-6">
-                <svg className="w-6 h-6 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                <svg
+                  className="w-6 h-6 text-indigo-600 dark:text-indigo-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                  />
                 </svg>
               </div>
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-                <Link href="/" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                <Link
+                  href="/"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                >
                   首页
                 </Link>
               </h3>
@@ -80,12 +108,25 @@ export default function SitemapPage() {
 
             <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow">
               <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-6">
-                <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                <svg
+                  className="w-6 h-6 text-blue-600 dark:text-blue-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  />
                 </svg>
               </div>
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-                <Link href="/product" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                <Link
+                  href="/product"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                >
                   产品介绍
                 </Link>
               </h3>
@@ -102,12 +143,25 @@ export default function SitemapPage() {
 
             <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow">
               <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mb-6">
-                <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                <svg
+                  className="w-6 h-6 text-green-600 dark:text-green-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
                 </svg>
               </div>
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-                <Link href="/features" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                <Link
+                  href="/features"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                >
                   功能特性
                 </Link>
               </h3>
@@ -124,12 +178,25 @@ export default function SitemapPage() {
 
             <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow">
               <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mb-6">
-                <svg className="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                <svg
+                  className="w-6 h-6 text-purple-600 dark:text-purple-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                  />
                 </svg>
               </div>
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-                <Link href="/tech" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                <Link
+                  href="/tech"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                >
                   技术文档
                 </Link>
               </h3>
@@ -146,12 +213,25 @@ export default function SitemapPage() {
 
             <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow">
               <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900 rounded-lg flex items-center justify-center mb-6">
-                <svg className="w-6 h-6 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                <svg
+                  className="w-6 h-6 text-orange-600 dark:text-orange-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                  />
                 </svg>
               </div>
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-                <Link href="/apps/web" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                <Link
+                  href="/apps/web"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                >
                   在线体验
                 </Link>
               </h3>
@@ -173,31 +253,46 @@ export default function SitemapPage() {
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
             快速导航
           </h2>
-          
+
           <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">产品相关</h3>
                 <div className="space-y-2">
-                  <Link href="/" className="block text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors">
+                  <Link
+                    href="/"
+                    className="block text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors"
+                  >
                     → 首页 - 产品概览
                   </Link>
-                  <Link href="/product" className="block text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors">
+                  <Link
+                    href="/product"
+                    className="block text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors"
+                  >
                     → 产品介绍 - 核心功能模块
                   </Link>
-                  <Link href="/features" className="block text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors">
+                  <Link
+                    href="/features"
+                    className="block text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors"
+                  >
                     → 功能特性 - 支持格式和转换能力
                   </Link>
                 </div>
               </div>
-              
+
               <div>
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">技术相关</h3>
                 <div className="space-y-2">
-                  <Link href="/tech" className="block text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors">
+                  <Link
+                    href="/tech"
+                    className="block text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors"
+                  >
                     → 技术文档 - 开发计划和技术栈
                   </Link>
-                  <Link href="/apps/web" className="block text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors">
+                  <Link
+                    href="/apps/web"
+                    className="block text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors"
+                  >
                     → 在线体验 - 直接使用产品
                   </Link>
                 </div>
@@ -209,17 +304,19 @@ export default function SitemapPage() {
         {/* CTA Section */}
         <section className="text-center">
           <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-12 text-white">
-            <h2 className="text-3xl font-bold mb-4">
-              开始使用DocuSynapse
-            </h2>
-            <p className="text-xl text-indigo-100 mb-8">
-              探索我们的智能文档处理平台
-            </p>
+            <h2 className="text-3xl font-bold mb-4">开始使用DocuSynapse</h2>
+            <p className="text-xl text-indigo-100 mb-8">探索我们的智能文档处理平台</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/apps/web" className="bg-white text-indigo-600 hover:bg-gray-100 px-8 py-3 rounded-lg text-lg font-semibold transition-colors">
+              <Link
+                href="/apps/web"
+                className="bg-white text-indigo-600 hover:bg-gray-100 px-8 py-3 rounded-lg text-lg font-semibold transition-colors"
+              >
                 立即体验
               </Link>
-              <Link href="/product" className="border border-white text-white hover:bg-white/10 px-8 py-3 rounded-lg text-lg font-semibold transition-colors">
+              <Link
+                href="/product"
+                className="border border-white text-white hover:bg-white/10 px-8 py-3 rounded-lg text-lg font-semibold transition-colors"
+              >
                 了解产品
               </Link>
             </div>

@@ -10,7 +10,9 @@ interface FilePreviewProps {
 }
 
 export const FilePreview: React.FC<FilePreviewProps> = ({ file, onClose }) => {
-  const [previewType, setPreviewType] = useState<'loading' | 'pdf' | 'image' | 'docx' | 'unsupported'>('loading');
+  const [previewType, setPreviewType] = useState<
+    'loading' | 'pdf' | 'image' | 'docx' | 'unsupported'
+  >('loading');
   const [pdfPages, setPdfPages] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [imageUrl, setImageUrl] = useState<string>('');
@@ -19,7 +21,7 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, onClose }) => {
 
   useEffect(() => {
     const fileExtension = file.name.toLowerCase().split('.').pop();
-    
+
     switch (fileExtension) {
       case 'pdf':
         setPreviewType('pdf');
@@ -51,16 +53,16 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, onClose }) => {
       const arrayBuffer = await file.arrayBuffer();
       const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
       const numPages = pdf.numPages;
-      
+
       const pages: string[] = [];
-      
+
       // 渲染前几页作为预览（最多3页）
       const maxPreviewPages = Math.min(numPages, 3);
-      
+
       for (let pageNum = 1; pageNum <= maxPreviewPages; pageNum++) {
         const page = await pdf.getPage(pageNum);
         const viewport = page.getViewport({ scale: 1.5 });
-        
+
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
         if (!context) {
@@ -68,16 +70,16 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, onClose }) => {
         }
         canvas.height = viewport.height;
         canvas.width = viewport.width;
-        
+
         await page.render({
           canvasContext: context,
           canvas: canvas,
-          viewport: viewport
+          viewport: viewport,
         }).promise;
-        
+
         pages.push(canvas.toDataURL());
       }
-      
+
       setPdfPages(pages);
     } catch (err) {
       setError('PDF预览加载失败');
@@ -102,20 +104,20 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, onClose }) => {
           setCurrentPage(Math.min(pdfPages.length - 1, currentPage + 1));
         }
       }
-      
+
       if (previewType === 'image') {
         if (event.key === '+' || event.key === '=') {
           event.preventDefault();
-          setImageScale(prev => Math.min(prev + 0.2, 3));
+          setImageScale((prev) => Math.min(prev + 0.2, 3));
         } else if (event.key === '-') {
           event.preventDefault();
-          setImageScale(prev => Math.max(prev - 0.2, 0.5));
+          setImageScale((prev) => Math.max(prev - 0.2, 0.5));
         } else if (event.key === '0') {
           event.preventDefault();
           setImageScale(1);
         }
       }
-      
+
       if (event.key === 'Escape') {
         onClose();
       }
@@ -143,13 +145,13 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, onClose }) => {
       <div className="space-y-4">
         {/* PDF页面预览 */}
         <div className="bg-white rounded-lg shadow-sm border p-4">
-          <img 
-            src={pdfPages[currentPage]} 
+          <img
+            src={pdfPages[currentPage]}
             alt={`PDF第${currentPage + 1}页`}
             className="max-w-full h-auto mx-auto shadow-sm rounded"
           />
         </div>
-        
+
         {/* 页面导航 */}
         {pdfPages.length > 1 && (
           <div className="flex items-center justify-center space-x-4 bg-gray-50 p-3 rounded-lg">
@@ -159,22 +161,23 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, onClose }) => {
               className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center space-x-1"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
               </svg>
               <span>上一页</span>
             </button>
-            
+
             <div className="flex items-center space-x-2">
               <span className="text-sm text-gray-600">
                 第 {currentPage + 1} 页，共 {pdfPages.length} 页
               </span>
-              {pdfPages.length > 3 && (
-                <span className="text-xs text-gray-400">
-                  (预览前3页)
-                </span>
-              )}
+              {pdfPages.length > 3 && <span className="text-xs text-gray-400">(预览前3页)</span>}
             </div>
-            
+
             <button
               onClick={() => setCurrentPage(Math.min(pdfPages.length - 1, currentPage + 1))}
               disabled={currentPage === pdfPages.length - 1}
@@ -182,12 +185,17 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, onClose }) => {
             >
               <span>下一页</span>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
           </div>
         )}
-        
+
         {/* 键盘提示 */}
         {pdfPages.length > 1 && (
           <div className="text-center text-xs text-gray-400 mt-2">
@@ -215,7 +223,7 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, onClose }) => {
         {/* 缩放控制 */}
         <div className="flex items-center justify-center space-x-4 bg-gray-50 p-3 rounded-lg">
           <button
-            onClick={() => setImageScale(prev => Math.max(prev - 0.2, 0.5))}
+            onClick={() => setImageScale((prev) => Math.max(prev - 0.2, 0.5))}
             disabled={imageScale <= 0.5}
             className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center space-x-1"
           >
@@ -224,11 +232,9 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, onClose }) => {
             </svg>
             <span>缩小</span>
           </button>
-          
+
           <div className="flex items-center space-x-2">
-            <span className="text-sm text-gray-600">
-              缩放: {Math.round(imageScale * 100)}%
-            </span>
+            <span className="text-sm text-gray-600">缩放: {Math.round(imageScale * 100)}%</span>
             <button
               onClick={() => setImageScale(1)}
               className="px-2 py-1 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors text-xs"
@@ -236,32 +242,37 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, onClose }) => {
               重置
             </button>
           </div>
-          
+
           <button
-            onClick={() => setImageScale(prev => Math.min(prev + 0.2, 3))}
+            onClick={() => setImageScale((prev) => Math.min(prev + 0.2, 3))}
             disabled={imageScale >= 3}
             className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center space-x-1"
           >
             <span>放大</span>
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 4v16m8-8H4"
+              />
             </svg>
           </button>
         </div>
 
         {/* 图片显示 */}
         <div className="bg-white rounded-lg shadow-sm border p-4 overflow-auto max-h-96">
-          <img 
-            src={imageUrl} 
+          <img
+            src={imageUrl}
             alt={file.name}
             className="mx-auto shadow-sm rounded transition-transform duration-200"
-            style={{ 
+            style={{
               transform: `scale(${imageScale})`,
-              transformOrigin: 'center'
+              transformOrigin: 'center',
             }}
           />
         </div>
-        
+
         {/* 键盘提示 */}
         <div className="text-center text-xs text-gray-400">
           使用 +/- 键缩放图片，按 0 重置缩放，按 ESC 键关闭预览
@@ -354,22 +365,31 @@ export const FilePreview: React.FC<FilePreviewProps> = ({ file, onClose }) => {
             onClick={onClose}
             className="p-2 hover:bg-gray-100 rounded-full transition-colors"
           >
-            <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg
+              className="w-5 h-5 text-gray-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
 
         {/* 预览内容 */}
-        <div className="p-4 overflow-y-auto max-h-[calc(90vh-80px)]">
-          {renderPreviewContent()}
-        </div>
+        <div className="p-4 overflow-y-auto max-h-[calc(90vh-80px)]">{renderPreviewContent()}</div>
 
         {/* 底部信息 */}
         <div className="p-4 border-t border-gray-200 bg-gray-50">
           <div className="flex items-center justify-between text-sm text-gray-600">
             <div>
-              <span className="font-medium">文件大小:</span> {(file.size / 1024 / 1024).toFixed(2)} MB
+              <span className="font-medium">文件大小:</span> {(file.size / 1024 / 1024).toFixed(2)}{' '}
+              MB
             </div>
             <div>
               <span className="font-medium">文件类型:</span> {file.type || '未知'}

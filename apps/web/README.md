@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![React](https://img.shields.io/badge/React-18.2.0-blue.svg)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-7.1.7-646CFF.svg)](https://vitejs.dev/)
-[![WIP](https://img.shields.io/badge/Status-WIP%20(Work%20In%20Progress)-orange.svg)](https://github.com/starsky/Doculi)
+[![WIP](<https://img.shields.io/badge/Status-WIP%20(Work%20In%20Progress)-orange.svg>)](https://github.com/starsky/Doculi)
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Online%20App-green)](https://doculi-web.vercel.app/)
 
 ## ⚠️ 开发状态
@@ -26,23 +26,25 @@ Doculi Web 端是 Doculi 智能文档处理平台的 Web 应用，提供基于�
 
 ### ✨ 核心特性 (开发中)
 
-- 🔄 **多格式转换**: PDF ↔ DOCX 双向转换 *(部分功能可用)*
-- 👁️ **智能 OCR**: 扫描件图片转可搜索 PDF *(实验性功能)*
-- 🔒 **安全水印**: 文档水印和敏感信息检测 *(开发中)*
-- ⚡ **高性能处理**: 基于 WASM 的本地化处理 *(优化中)*
-- 🧵 **多线程支持**: Web Workers 保障界面流畅 *(测试中)*
-- 🔒 **隐私保护**: 所有处理在浏览器中完成，数据不上传 *(已实现)*
+- 🔄 **多格式转换**: PDF ↔ DOCX 双向转换 _(部分功能可用)_
+- 👁️ **智能 OCR**: 扫描件图片转可搜索 PDF _(实验性功能)_
+- 🔒 **安全水印**: 文档水印和敏感信息检测 _(开发中)_
+- ⚡ **高性能处理**: 基于 WASM 的本地化处理 _(优化中)_
+- 🧵 **多线程支持**: Web Workers 保障界面流畅 _(测试中)_
+- 🔒 **隐私保护**: 所有处理在浏览器中完成，数据不上传 _(已实现)_
 
 ## 🏗️ 技术架构
 
 ### 前端技术栈
 
 **核心框架**
+
 - **React 18** + TypeScript - 现代化前端框架
 - **Vite 7** - 快速构建工具和开发服务器
 - **Tailwind CSS 4** - 实用优先的 CSS 框架
 
 **文档处理**
+
 - **pdf-lib** - PDF 文档操作和生成
 - **pdfjs-dist** - PDF 文本提取和渲染
 - **docx** - Word 文档处理
@@ -50,11 +52,13 @@ Doculi Web 端是 Doculi 智能文档处理平台的 Web 应用，提供基于�
 - **tesseract.js** - OCR 文字识别
 
 **性能优化**
+
 - **Web Workers** - 多线程处理，避免界面阻塞
 - **WASM 模块** - 高性能本地计算
 - **Comlink** - Web Worker 通信封装
 
 **状态管理**
+
 - **React Hooks** - 函数式状态管理
 - **useCallback/useMemo** - 性能优化
 
@@ -65,11 +69,12 @@ Doculi Web 端是 Doculi 智能文档处理平台的 Web 应用，提供基于�
 **🚀 在线演示**: [https://doculi-web.vercel.app/](https://doculi-web.vercel.app/)
 
 无需安装，直接在浏览器中体验：
-- PDF ↔ DOCX 双向转换 *(部分功能)*
-- 扫描件 OCR 识别 *(实验性)*
-- 智能水印添加 *(开发中)*
-- 敏感信息检测 *(测试中)*
-- 实时进度显示 *(基础功能)*
+
+- PDF ↔ DOCX 双向转换 _(部分功能)_
+- 扫描件 OCR 识别 _(实验性)_
+- 智能水印添加 _(开发中)_
+- 敏感信息检测 _(测试中)_
+- 实时进度显示 _(基础功能)_
 
 > **⚠️ 重要提醒**: 在线演示仅用于测试目的，功能可能不稳定，请勿用于重要文档处理。
 
@@ -136,37 +141,43 @@ docker-compose up -d
 
 ### 支持的文件格式 (开发中)
 
-| 输入格式 | 输出格式 | 功能描述 | 状态 |
-|---------|---------|---------|------|
-| PDF | DOCX | 智能文本提取，保持格式结构 | 🟡 部分可用 |
-| DOCX | PDF | 文档转换，支持水印添加 | 🟡 部分可用 |
-| JPG/PNG | PDF | OCR 识别，生成可搜索 PDF | 🔴 实验性 |
+| 输入格式 | 输出格式 | 功能描述                   | 状态        |
+| -------- | -------- | -------------------------- | ----------- |
+| PDF      | DOCX     | 智能文本提取，保持格式结构 | 🟡 部分可用 |
+| DOCX     | PDF      | 文档转换，支持水印添加     | 🟡 部分可用 |
+| JPG/PNG  | PDF      | OCR 识别，生成可搜索 PDF   | 🔴 实验性   |
 
 ### 高级功能 (开发中)
 
-- **智能格式识别**: 自动识别文档结构（标题、段落、列表） *(开发中)*
-- **内容理解**: 保持语义结构和逻辑顺序 *(测试中)*
-- **质量提升**: 格式保留率优化中 *(不稳定)*
-- **敏感信息检测**: 身份证号检测熔断机制 *(测试中)*
-- **风险文档拦截**: 自动识别并阻止下载 *(开发中)*
+- **智能格式识别**: 自动识别文档结构（标题、段落、列表） _(开发中)_
+- **内容理解**: 保持语义结构和逻辑顺序 _(测试中)_
+- **质量提升**: 格式保留率优化中 _(不稳定)_
+- **敏感信息检测**: 身份证号检测熔断机制 _(测试中)_
+- **风险文档拦截**: 自动识别并阻止下载 _(开发中)_
 
 ## 🎯 应用场景 (计划中)
 
 > **⚠️ 注意**: 以下应用场景为计划功能，当前版本可能无法完全支持。
 
 ### 企业合规场景 (计划中)
+
 **合同文档处理**
-- 上传包含身份证的合同.docx → 添加水印 → 触发熔断警告 → 人工审核后下载 *(开发中)*
+
+- 上传包含身份证的合同.docx → 添加水印 → 触发熔断警告 → 人工审核后下载 _(开发中)_
 - 适用于法律、金融等对数据安全要求较高的行业
 
 ### 办公自动化场景 (计划中)
+
 **扫描件数字化**
-- 上传发票照片.jpg → OCR 识别 → 转换为可搜索 PDF → 提取关键信息 *(实验性)*
+
+- 上传发票照片.jpg → OCR 识别 → 转换为可搜索 PDF → 提取关键信息 _(实验性)_
 - 适用于财务、行政等需要处理大量纸质文档的场景
 
 ### 教育培训场景 (计划中)
+
 **教学资料转换**
-- PDF 课件 → 转换为 Word 格式 → 便于编辑和标注 *(开发中)*
+
+- PDF 课件 → 转换为 Word 格式 → 便于编辑和标注 _(开发中)_
 - 适用于教师、培训师等需要修改教学材料的场景
 
 ## 📁 项目结构
@@ -200,14 +211,15 @@ apps/web/
 
 ## 🌐 浏览器兼容性
 
-| 浏览器 | 最低版本 | 支持状态 |
-|--------|---------|---------|
-| Chrome | 88+ | ✅ 完全支持 |
-| Firefox | 85+ | ✅ 完全支持 |
-| Safari | 14+ | ✅ 完全支持 |
-| Edge | 88+ | ✅ 完全支持 |
+| 浏览器  | 最低版本 | 支持状态    |
+| ------- | -------- | ----------- |
+| Chrome  | 88+      | ✅ 完全支持 |
+| Firefox | 85+      | ✅ 完全支持 |
+| Safari  | 14+      | ✅ 完全支持 |
+| Edge    | 88+      | ✅ 完全支持 |
 
 **技术要求**:
+
 - 支持 Web Workers
 - 支持 WebAssembly (WASM)
 - 支持 ES2020+ 语法
@@ -242,6 +254,7 @@ apps/web/
 ### 常见问题
 
 1. **构建失败**
+
    ```bash
    # 清理依赖重新安装
    rm -rf node_modules pnpm-lock.yaml
@@ -267,6 +280,7 @@ apps/web/
 欢迎贡献代码！请查看 [CONTRIBUTING.md](../../CONTRIBUTING.md) 了解贡献指南。
 
 ### 贡献前须知
+
 - 📝 **功能不稳定**: 代码和功能会频繁变更
 - 🐛 **存在 Bug**: 可能遇到各种问题
 - 🔄 **快速迭代**: 开发节奏较快
@@ -276,8 +290,8 @@ apps/web/
 
 - **项目地址**: https://github.com/starsky/Doculi
 - **问题反馈**: https://github.com/starsky/Doculi/issues
-- **在线演示**: [https://doculi-web.vercel.app/](https://doculi-web.vercel.app/) *(测试版本)*
-- **产品文档**: [https://doculi-docs.vercel.app/](https://doculi-docs.vercel.app/) *(开发中)*
+- **在线演示**: [https://doculi-web.vercel.app/](https://doculi-web.vercel.app/) _(测试版本)_
+- **产品文档**: [https://doculi-docs.vercel.app/](https://doculi-docs.vercel.app/) _(开发中)_
 
 ---
 
@@ -285,7 +299,8 @@ apps/web/
 
 **🚧 应用状态**: 这是一个 Work In Progress (WIP) 应用，所有功能都处于开发阶段。
 
-**📝 使用建议**: 
+**📝 使用建议**:
+
 - 仅用于测试和演示目的
 - 不建议用于生产环境
 - 功能可能不稳定，存在 bug

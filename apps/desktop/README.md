@@ -128,12 +128,12 @@ apps/desktop/
 
 ### 1. 文档转换引擎
 
-| 功能 | 技术方案 | 状态 |
-|------|----------|------|
-| PDF → DOCX | pdf-lib.js + WASM | ✅ 已实现 |
-| DOCX → PDF | docx-pdf + Puppeteer Core WASM | ✅ 已实现 |
-| 扫描件 OCR | Tesseract.js WASM | ✅ 已实现 |
-| AI 增强转换 | 本地 LLM + MCP 协议 | ✅ 已实现 |
+| 功能        | 技术方案                       | 状态      |
+| ----------- | ------------------------------ | --------- |
+| PDF → DOCX  | pdf-lib.js + WASM              | ✅ 已实现 |
+| DOCX → PDF  | docx-pdf + Puppeteer Core WASM | ✅ 已实现 |
+| 扫描件 OCR  | Tesseract.js WASM              | ✅ 已实现 |
+| AI 增强转换 | 本地 LLM + MCP 协议            | ✅ 已实现 |
 
 ### 2. 桌面应用特性
 
@@ -199,10 +199,7 @@ ELECTRON_LOG_LEVEL=debug pnpm dev
     "directories": {
       "output": "build"
     },
-    "files": [
-      "dist/**/*",
-      "dist-electron/**/*"
-    ],
+    "files": ["dist/**/*", "dist-electron/**/*"],
     "mac": {
       "category": "public.app-category.productivity"
     },

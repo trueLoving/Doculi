@@ -89,10 +89,10 @@ class MCPServer extends EventEmitter {
           preserve_formatting: { type: 'boolean', default: true },
           extract_tables: { type: 'boolean', default: true },
           extract_images: { type: 'boolean', default: true },
-          language: { type: 'string', default: 'auto' }
+          language: { type: 'string', default: 'auto' },
         },
-        required: ['file_path', 'target_format']
-      }
+        required: ['file_path', 'target_format'],
+      },
     };
 
     this.tools.set(documentTool.name, documentTool);
@@ -107,7 +107,7 @@ class MCPServer extends EventEmitter {
     try {
       // 检查本地LLM服务是否可用
       await this.checkLLMService();
-      
+
       this.isRunning = true;
       this.emit('started');
       console.log('MCP服务器已启动');
@@ -124,9 +124,9 @@ class MCPServer extends EventEmitter {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          ...(this.llmConfig.apiKey && { 'Authorization': `Bearer ${this.llmConfig.apiKey}` })
+          ...(this.llmConfig.apiKey && { Authorization: `Bearer ${this.llmConfig.apiKey}` }),
         },
-        signal: AbortSignal.timeout(this.llmConfig.timeout || 5000)
+        signal: AbortSignal.timeout(this.llmConfig.timeout || 5000),
       });
 
       if (!response.ok) {
@@ -166,7 +166,7 @@ class MCPServer extends EventEmitter {
     return {
       jsonrpc: '2.0',
       id: message.id,
-      result: { tools }
+      result: { tools },
     };
   }
 
@@ -192,7 +192,7 @@ class MCPServer extends EventEmitter {
       return {
         jsonrpc: '2.0',
         id: message.id,
-        result: { content: result }
+        result: { content: result },
       };
     } catch (error) {
       return this.createErrorResponse(message.id, -32603, 'Tool execution failed', error);
@@ -201,7 +201,14 @@ class MCPServer extends EventEmitter {
 
   // 文档转换工具实现
   private async convertDocument(args: any): Promise<any> {
-    const { file_path, target_format, preserve_formatting, extract_tables, extract_images, language } = args;
+    const {
+      file_path,
+      target_format,
+      preserve_formatting,
+      extract_tables,
+      extract_images,
+      language,
+    } = args;
 
     try {
       // 读取文件
@@ -217,7 +224,7 @@ class MCPServer extends EventEmitter {
         preserveFormatting: preserve_formatting,
         extractTables: extract_tables,
         extractImages: extract_images,
-        language
+        language,
       });
 
       // 调用本地LLM
@@ -231,7 +238,7 @@ class MCPServer extends EventEmitter {
         data: result.data,
         fileName: result.fileName,
         confidence: result.confidence,
-        extractedElements: result.extractedElements
+        extractedElements: result.extractedElements,
       };
     } catch (error) {
       throw new Error(`文档转换失败: ${error}`);
@@ -248,7 +255,14 @@ class MCPServer extends EventEmitter {
     extractImages: boolean;
     language: string;
   }): string {
-    const { fileExtension, targetFormat, preserveFormatting, extractTables, extractImages, language } = options;
+    const {
+      fileExtension,
+      targetFormat,
+      preserveFormatting,
+      extractTables,
+      extractImages,
+      language,
+    } = options;
 
     return `请分析这个${fileExtension}文件并将其转换为${targetFormat}格式。
 
@@ -269,8 +283,8 @@ class MCPServer extends EventEmitter {
       stream: false,
       options: {
         temperature: this.llmConfig.temperature || 0.1,
-        num_predict: this.llmConfig.maxTokens || 4000
-      }
+        num_predict: this.llmConfig.maxTokens || 4000,
+      },
     };
 
     // 如果有文件内容，添加到请求中
@@ -282,10 +296,10 @@ class MCPServer extends EventEmitter {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        ...(this.llmConfig.apiKey && { 'Authorization': `Bearer ${this.llmConfig.apiKey}` })
+        ...(this.llmConfig.apiKey && { Authorization: `Bearer ${this.llmConfig.apiKey}` }),
       },
       body: JSON.stringify(requestBody),
-      signal: AbortSignal.timeout(this.llmConfig.timeout || 30000)
+      signal: AbortSignal.timeout(this.llmConfig.timeout || 30000),
     });
 
     if (!response.ok) {
@@ -301,7 +315,7 @@ class MCPServer extends EventEmitter {
     try {
       // 尝试解析JSON响应
       const parsed = JSON.parse(response);
-      
+
       if (parsed.content) {
         return {
           data: this.convertContentToFormat(parsed.content),
@@ -311,8 +325,8 @@ class MCPServer extends EventEmitter {
             tables: parsed.tables || [],
             images: parsed.images || [],
             headers: parsed.headers || [],
-            lists: parsed.lists || []
-          }
+            lists: parsed.lists || [],
+          },
         };
       }
     } catch (error) {
@@ -320,7 +334,7 @@ class MCPServer extends EventEmitter {
       return {
         data: this.convertContentToFormat(response),
         fileName: this.generateFileName(fileName, targetFormat),
-        confidence: 0.7
+        confidence: 0.7,
       };
     }
   }
@@ -343,7 +357,7 @@ class MCPServer extends EventEmitter {
     return {
       jsonrpc: '2.0',
       id: message.id,
-      result: { resources }
+      result: { resources },
     };
   }
 
@@ -359,16 +373,21 @@ class MCPServer extends EventEmitter {
     return {
       jsonrpc: '2.0',
       id: message.id,
-      result: { contents: [{ uri, mimeType: resource.mimeType || 'text/plain' }] }
+      result: { contents: [{ uri, mimeType: resource.mimeType || 'text/plain' }] },
     };
   }
 
   // 创建错误响应
-  private createErrorResponse(id: string | number | undefined, code: number, message: string, data?: any): MCPMessage {
+  private createErrorResponse(
+    id: string | number | undefined,
+    code: number,
+    message: string,
+    data?: any
+  ): MCPMessage {
     return {
       jsonrpc: '2.0',
       id,
-      error: { code, message, data }
+      error: { code, message, data },
     };
   }
 
@@ -394,7 +413,7 @@ class MCPServer extends EventEmitter {
     return {
       isRunning: this.isRunning,
       toolsCount: this.tools.size,
-      resourcesCount: this.resources.size
+      resourcesCount: this.resources.size,
     };
   }
 }

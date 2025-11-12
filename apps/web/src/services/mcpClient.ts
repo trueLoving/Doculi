@@ -36,7 +36,8 @@ class MCPClient extends EventEmitter {
   private config: MCPClientConfig;
   private isConnected: boolean = false;
   private messageId: number = 0;
-  private pendingRequests: Map<string | number, { resolve: Function; reject: Function }> = new Map();
+  private pendingRequests: Map<string | number, { resolve: Function; reject: Function }> =
+    new Map();
 
   constructor(config: MCPClientConfig) {
     super();
@@ -80,7 +81,7 @@ class MCPClient extends EventEmitter {
       jsonrpc: '2.0' as const,
       id,
       method,
-      params
+      params,
     };
 
     return new Promise((resolve, reject) => {
@@ -99,7 +100,7 @@ class MCPClient extends EventEmitter {
         reject: (error: any) => {
           clearTimeout(timeout);
           reject(error);
-        }
+        },
       });
 
       // 发送请求到MCP服务器
@@ -114,10 +115,10 @@ class MCPClient extends EventEmitter {
       const response = await fetch(`${this.config.serverUrl}/mcp`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(message),
-        signal: AbortSignal.timeout(this.config.timeout || 30000)
+        signal: AbortSignal.timeout(this.config.timeout || 30000),
       });
 
       if (!response.ok) {
@@ -139,7 +140,7 @@ class MCPClient extends EventEmitter {
 
     if (pendingRequest) {
       this.pendingRequests.delete(id);
-      
+
       if (error) {
         pendingRequest.reject(new Error(error.message || '服务器错误'));
       } else {
@@ -155,7 +156,7 @@ class MCPClient extends EventEmitter {
 
     for (let attempt = 1; attempt <= retryAttempts; attempt++) {
       try {
-        await new Promise(resolve => setTimeout(resolve, retryDelay * attempt));
+        await new Promise((resolve) => setTimeout(resolve, retryDelay * attempt));
         await this.sendToServer(message);
         return;
       } catch (retryError) {
@@ -181,31 +182,34 @@ class MCPClient extends EventEmitter {
     try {
       const response = await this.sendRequest('tools/call', {
         name: toolName,
-        arguments: args
+        arguments: args,
       });
 
       return {
         success: true,
         data: response?.content,
         confidence: response?.confidence,
-        extractedElements: response?.extractedElements
+        extractedElements: response?.extractedElements,
       };
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : '未知错误'
+        error: error instanceof Error ? error.message : '未知错误',
       };
     }
   }
 
   // 文档转换工具调用 - 直接调用server API
-  async convertDocument(file: File, options: {
-    targetFormat: 'pdf' | 'docx' | 'txt' | 'html';
-    preserveFormatting?: boolean;
-    extractTables?: boolean;
-    extractImages?: boolean;
-    language?: string;
-  }): Promise<MCPToolResult> {
+  async convertDocument(
+    file: File,
+    options: {
+      targetFormat: 'pdf' | 'docx' | 'txt' | 'html';
+      preserveFormatting?: boolean;
+      extractTables?: boolean;
+      extractImages?: boolean;
+      language?: string;
+    }
+  ): Promise<MCPToolResult> {
     try {
       // 使用FormData直接上传文件到server
       const formData = new FormData();
@@ -219,7 +223,7 @@ class MCPClient extends EventEmitter {
       const response = await fetch(`${this.config.serverUrl}/api/convert`, {
         method: 'POST',
         body: formData,
-        signal: AbortSignal.timeout(this.config.timeout || 30000)
+        signal: AbortSignal.timeout(this.config.timeout || 30000),
       });
 
       if (!response.ok) {
@@ -231,23 +235,22 @@ class MCPClient extends EventEmitter {
         success: true,
         data: result.data,
         confidence: result.confidence,
-        extractedElements: result.extractedElements
+        extractedElements: result.extractedElements,
       };
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : '文档转换失败'
+        error: error instanceof Error ? error.message : '文档转换失败',
       };
     }
   }
-
 
   // 获取本地LLM状态 - 直接调用server API
   async getLocalLLMStatus(): Promise<LocalLLMStatus> {
     try {
       const response = await fetch(`${this.config.serverUrl}/api/status`, {
         method: 'GET',
-        signal: AbortSignal.timeout(5000)
+        signal: AbortSignal.timeout(5000),
       });
 
       if (!response.ok) {
@@ -261,7 +264,7 @@ class MCPClient extends EventEmitter {
         provider: data.llm?.provider || 'unknown',
         endpoint: data.llm?.endpoint || '',
         availableModels: await this.getAvailableModels(),
-        lastError: undefined
+        lastError: undefined,
       };
     } catch (error) {
       return {
@@ -270,7 +273,7 @@ class MCPClient extends EventEmitter {
         provider: 'unknown',
         endpoint: '',
         availableModels: [],
-        lastError: error instanceof Error ? error.message : '未知错误'
+        lastError: error instanceof Error ? error.message : '未知错误',
       };
     }
   }
@@ -280,7 +283,7 @@ class MCPClient extends EventEmitter {
     try {
       const response = await fetch(`${this.config.serverUrl}/api/models`, {
         method: 'GET',
-        signal: AbortSignal.timeout(10000)
+        signal: AbortSignal.timeout(10000),
       });
 
       if (!response.ok) {
@@ -304,7 +307,7 @@ class MCPClient extends EventEmitter {
   getStatus(): { isConnected: boolean; pendingRequests: number } {
     return {
       isConnected: this.isConnected,
-      pendingRequests: this.pendingRequests.size
+      pendingRequests: this.pendingRequests.size,
     };
   }
 }

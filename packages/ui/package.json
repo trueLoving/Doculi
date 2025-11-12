@@ -17,8 +17,7 @@
     "dev": "tsup --watch",
     "test": "vitest"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "tsup": "^7.0.0",
     "@types/node": "^22.0.0",

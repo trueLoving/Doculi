@@ -12,7 +12,7 @@ class WorkerManager {
   async executeTask(type: WorkerTask['type'], data: any): Promise<any> {
     // 直接在主线程中执行，避免Web Worker的复杂性
     const { conversionService } = await import('./conversionService');
-    
+
     switch (type) {
       case 'CONVERT_FILE':
         return await conversionService.convertFile(data.file, data.options);
